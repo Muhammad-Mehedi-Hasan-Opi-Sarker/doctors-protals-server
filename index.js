@@ -22,12 +22,19 @@ async function run(){
     try{
         await client.connect();
         const dataCollection = client.db('doctors_protal_treatment').collection('services');
+        const bookingCollection = client.db('doctors_protal_treatment').collection('booking');
 
         app.get('/service', async(req,res)=>{
             const query={};
             const cursor = dataCollection.find(query);
             const result= await cursor.toArray();
             res.send(result)
+        })
+
+        app.post('/booking', (req,res)=>{
+            const booking = req.body;
+            const result = await bookingCollection.insertOne(booking);
+            res.send(result);
 
         })
 
